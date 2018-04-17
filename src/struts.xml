@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--引入dtd约束-->
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <package name="crmdemo" extends="struts-default" namespace="/">
+        <!--配置action,name属性：访问路径的名称,class:action的全路径,但是现在
+        是将action的配置交由spring来创建，故class是属性值不能写action的全路径，否则这个action回被创建2次
+        此时，class的值应该写bean.xml中对action配置的id值-->
+        <action name="user_*" class="userAction" method="{1}">
+            <!--配置返回字符串所指向的具体页面-->
+            <result name="loginsuccess">/index.htm</result>
+            <result name="login">/login.jsp</result>
+            <allowed-methods>login</allowed-methods>
+        </action>
+        <!--配置customerAction-->
+        <action name="customer_*" class="customerAction" method="{1}">
+            <!--配置返回字符串所指向的具体页面-->
+            <result name="toadd">/jsp/customer/add.jsp</result>
+            <result name="success" type="redirectAction">customer_list.action</result>
+            <result name="list">/jsp/customer/list.jsp</result>
+            <!--执行删除之后再重定向到客户列表-->
+            <result name="delete" type="redirectAction">customer_list.action</result>
+            <result name="showupdate">/jsp/customer/edit.jsp</result>
+            <result name="update" type="redirectAction">customer_list.action</result>
+
+            <!--分页效果-->
+            <result name="pagelist">/jsp/customer/pagelist.jsp</result>
+            <allowed-methods>toAddPage,add,list,getModel,delete,showupdate,update,pageList</allowed-methods>
+        </action>
+    </package>
+</struts>

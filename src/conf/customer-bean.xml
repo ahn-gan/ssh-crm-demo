@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--使用事务的约束-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:beans="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--配置action的创建
+        action的特点是多实例的-->
+    <bean id="customerAction" class="com.ahn.action.CustomerAction" scope="prototype">
+        <!--注入service对象-->
+        <property name="customerService" ref="customerService"></property>
+    </bean>
+    <!--创建service对象-->
+    <bean id="customerService" class="com.ahn.service.CustomerService">
+        <!--注入dao对象-->
+        <property name="customerDao" ref="customerDaoImpl"></property>
+    </bean>
+    <!--customerDaoImpl对象已经继承HibernateDaoSupport类得到hibernateTemplate对象，所以不再需要配置hibernateTemplate的创建-->
+    <!--只需要注入sessionFactory-->
+    <bean id="customerDaoImpl" class="com.ahn.dao.CustomerDaoImpl">
+        <!--引用bean.xml文件的sessionFactory对象-->
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+</beans>

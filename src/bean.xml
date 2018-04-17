@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--使用事务的约束-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--首先要使用aop注解方式，需要开启aop操作-->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <!--c3p0连接池的配置-->
+    <!--使用c3p0配置数据库连接池-->
+    <!--创建对象-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--注入属性值-->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql:///crmdb"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="root"></property>
+    </bean>
+
+    <!--sessionFactory对象的创建也交由spring配置文件管理-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <!--因为在hibernate的核心配置文件中没有对数据库的配置信息，已经在spring的配置文件中配置好了，这里需要注入dataSource对象-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!--指定hibernate的核心配置文件-->
+        <property name="configLocations" value="classpath:hibernate.cfg.xml"></property>
+    </bean>
+
+    <!--事务管理步骤-->
+    <!--1、配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <!--注入dataSourcce属性
+            在类里面也有sessionFactory的属性，在这里也可注入sessionFactory，，其内部也已经包含dataSource属性了-->
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <!--2、开启事务注解-->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+    <!--3、在使用事务操作的类上边开启注解@Transactional(也可以在service上边注解)-->
+
+    <!--配置action的创建
+        action的特点是多实例的-->
+    <bean id="userAction" class="com.ahn.action.UserAction" scope="prototype">
+        <!--注入service对象-->
+        <property name="userService" ref="userService"></property>
+    </bean>
+    <!--创建service对象-->
+    <bean id="userService" class="com.ahn.service.UserService">
+        <!--注入dao对象-->
+        <property name="userDao" ref="userDaoImpl"></property>
+    </bean>
+
+    <bean id="userDaoImpl" class="com.ahn.dao.UserDaoImpl">
+        <!--注入hibernateTemplate对象-->
+        <!--ref:是下边已经创建号的hibernateTemplate的对象-->
+        <property name="hibernateTemplate" ref="hibernateTemplate"></property>
+    </bean>
+    <!--创建hibernateTemplate对象-->
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+        <!--注入sessionFactory对象
+            ref：是上边已经创建的sessionFactory对象-->
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <!--引入其他配置文件-->
+    <import resource="classpath:conf/customer-bean.xml"></import>
+</beans>

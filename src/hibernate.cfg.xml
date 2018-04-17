@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 1、引入dtd约束 -->
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<!-- 2、配置 -->
+	<hibernate-configuration>
+		<session-factory>
+			<!--数据库配置信息已经在spring配置文件中配置-->
+			<!-- 第一部分： 配置数据库信息* -->
+<!--			<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+			&lt;!&ndash; jdbc:mysql://localhost/htestdb &ndash;&gt;
+			<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/crmdb</property>
+			<property name="hibernate.connection.username">root</property>
+			<property name="hibernate.connection.password">root</property>-->
+			<!-- 第二部分： 配置hibernate信息(可选的)-->
+			<!-- 输出sql语句 -->
+			<property name="hibernate.show_sql">true</property>
+			<!-- 输出sql语句格式 -->
+			<property name="hibernate.format_sql">true</property>
+			<!-- hibernate创建表，需要配置之后 
+				update: 如果已经有表，则更新，如果没有，则创建
+			-->
+			<property name="hibernate.hbm2ddl.auto">update</property>
+			<!-- 配置数据库方言
+				如：在mysql里面实现分页，关键字用limit（只能适用mysql）
+					在oracle数据库，实现分页rownum
+					让hibernate框架识别不同数据库的自己特有的语句
+			 -->
+ 			<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+<!-- hibernate里的dialect和Mysql的版本不匹配,SQL语句里的type=InnoDB使用在MySQL5.0之前，5.0之后就要是使用engine=InnoDB -->
+			<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+			
+			<!-- 第三部分： 把映射文件放到核心配置文件中 必须的-->
+			<mapping resource="com/ahn/entity/User.hbm.xml"/>
+			<mapping resource="com/ahn/entity/Customer.hbm.xml"/>
+			
+		</session-factory>
+	</hibernate-configuration>
