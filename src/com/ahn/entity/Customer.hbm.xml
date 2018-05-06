@@ -28,5 +28,23 @@
         <property name="custZip" column="custZip"></property>
         <property name="custFax" column="custFax"></property>
         <property name="custWebsite" column="custWebsite"></property>
+
+        <!--配置客户-联系人一对多关系
+            表示客户的所有联系人-->
+        <!--inverse="true"表示customer表放弃维护外键关系。默认值为false
+            级联删除：cascade="delete"，save-update表示级联更新-->
+        <set name="linkManSet" inverse="true" cascade="delete">
+            <!--key表示外键-->
+            <key column="clid"></key>
+            <!--联系人实体类的全路径-->
+            <one-to-many class="com.ahn.entity.LinkMan"></one-to-many>
+        </set>
+
+        <!--表示客户的访问记录集合-->
+        <set name="cvisitSet">
+            <key column="cvid"></key>
+            <one-to-many class="com.ahn.entity.Visit"></one-to-many>
+        </set>
+
     </class>
 </hibernate-mapping>

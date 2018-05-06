@@ -25,7 +25,7 @@
 </HEAD>
 <BODY>
 	<FORM id="customerForm" name="customerForm"
-		action="${pageContext.request.contextPath }/customerServlet?method=list"
+		action="${pageContext.request.contextPath }/customer_conditionQuery.action?currentPage=1"
 		method=post>
 		
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
@@ -65,7 +65,12 @@
 													<TD>客户名称：</TD>
 													<TD><INPUT class=textbox id=sChannel2
 														style="WIDTH: 80px" maxLength=50 name="custName"></TD>
-													
+													<TD>客户级别：</TD>
+													<TD><INPUT class=textbox id=sChannel2
+															   style="WIDTH: 80px" maxLength=50 name="custLevel"></TD>
+													<TD>客户来源：</TD>
+													<TD><INPUT class=textbox id=sChannel2
+															   style="WIDTH: 80px" maxLength=50 name="custSource"></TD>
 													<TD><INPUT class=button id=sButton2 type=submit
 														value=" 筛选 " name=sButton2></TD>
 												</TR>

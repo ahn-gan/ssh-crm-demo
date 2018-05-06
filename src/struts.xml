@@ -4,6 +4,11 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
+    <!--设置上传的文件大小的常量
+        最大值为20M（value为字节单位）
+        超过设定的大小，则会跳转到“input”指定的页面-->
+    <constant name="struts.multipart.maxSize" value="20971520"></constant>
+
     <package name="crmdemo" extends="struts-default" namespace="/">
         <!--配置action,name属性：访问路径的名称,class:action的全路径,但是现在
         是将action的配置交由spring来创建，故class是属性值不能写action的全路径，否则这个action回被创建2次
@@ -21,13 +26,42 @@
             <result name="success" type="redirectAction">customer_list.action</result>
             <result name="list">/jsp/customer/list.jsp</result>
             <!--执行删除之后再重定向到客户列表-->
-            <result name="delete" type="redirectAction">customer_list.action</result>
+            <result name="delete" type="redirectAction">customer_pageList.action</result>
             <result name="showupdate">/jsp/customer/edit.jsp</result>
-            <result name="update" type="redirectAction">customer_list.action</result>
+            <result name="update" type="redirectAction">customer_pageList.action?currentPage=1</result>
 
             <!--分页效果-->
             <result name="pagelist">/jsp/customer/pagelist.jsp</result>
-            <allowed-methods>toAddPage,add,list,getModel,delete,showupdate,update,pageList</allowed-methods>
+            <!--条件查询结果页面-->
+            <result name="querylist">/jsp/customer/pagelist.jsp</result>
+
+            <allowed-methods>toAddPage,add,list,getModel,delete,showupdate,update,pageList,conditionQuery</allowed-methods>
         </action>
+        <!--配置linkManAction-->
+        <action name="linkman_*" class="linkManAction" method="{1}">
+            <!--配置返回字符串所指向的具体页面-->
+            <result name="toadd">/jsp/linkman/add.jsp</result>
+            <result name="insert">/jsp/linkman/list.jsp</result>
+            <!--配置上传文件超过设定的大小时返回“input”字符串的处理结果页面-->
+            <result name="input">/jsp/error.jsp</result>
+
+            <result name="list">/jsp/linkman/list.jsp</result>
+            <result name="showedit">/jsp/linkman/edit.jsp</result>
+            <!--保存修改返回的结果页面-->
+            <result name="edit" type="redirectAction">linkman_list.action</result>
+            <allowed-methods>toAddPage,insert,list,showedit,edit</allowed-methods>
+        </action>
+
+        <!--配置visitAction-->
+        <action name="visit_*" class="visitAction" method="{1}">
+            <!--配置返回字符串所指向的具体页面-->
+            <result name="toadd">/jsp/visit/add.jsp</result>
+            <result name="insert" type="redirectAction">visit_list.action</result>
+            <result name="list">/jsp/visit/list.jsp</result>
+            <result name="showedit">/jsp/visit/edit.jsp</result>
+            <result name="edit" type="redirectAction">visit_list.action</result>
+            <allowed-methods>toAddPage,insert,edit,showedit</allowed-methods>
+        </action>
+
     </package>
 </struts>

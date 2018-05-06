@@ -1,5 +1,8 @@
 package com.ahn.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Customer {
 
     //默认自增长的id
@@ -14,6 +17,29 @@ public class Customer {
     private String custZip;//邮政编码
     private String custFax;//传真
     private String custWebsite;//客户网站
+
+
+    //一个客户对应有多条访问记录
+    private Set<Visit> cvisitSet=new HashSet<Visit>();
+
+    public Set<Visit> getCvisitSet() {
+        return cvisitSet;
+    }
+
+    public void setCvisitSet(Set<Visit> cvisitSet) {
+        this.cvisitSet = cvisitSet;
+    }
+
+    //（客户对联系人是多对一关系，客户作为“一”，联系人作为多的一方）
+    private Set<LinkMan> linkManSet=new HashSet<LinkMan>();
+
+    public Set<LinkMan> getLinkManSet() {
+        return linkManSet;
+    }
+
+    public void setLinkManSet(Set<LinkMan> linkManSet) {
+        this.linkManSet = linkManSet;
+    }
 
     public Integer getCid() {
         return cid;

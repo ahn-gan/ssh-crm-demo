@@ -1,9 +1,23 @@
 package com.ahn.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class User {
     private Integer uid;
     private String username;
     private String password;
+
+    //一个用户对应有多个访问记录
+    private Set<Visit> uvisitSet=new HashSet<Visit>();
+
+    public Set<Visit> getUvisitSet() {
+        return uvisitSet;
+    }
+
+    public void setUvisitSet(Set<Visit> uvisitSet) {
+        this.uvisitSet = uvisitSet;
+    }
 
     public User() {
     }

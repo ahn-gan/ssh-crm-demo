@@ -4,20 +4,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<TITLE>添加联系人</TITLE> 
+<TITLE>修改联系人</TITLE>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <LINK href="${pageContext.request.contextPath }/css/Style.css" type=text/css rel=stylesheet>
-<LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
-	rel=stylesheet>
+<LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css rel=stylesheet>
 
 
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
 	<FORM id=form1 name=form1
-		action="${pageContext.request.contextPath }/linkmanServlet?method=editsubmit"
+		action="${pageContext.request.contextPath }/linkman_edit.action"
 		method=post>
-		<input type="hidden" name="lkmId" value="${linkman.lkmId }"/>
+		<input type="hidden" name="lid" value="${linkman.lid }"/>
 
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
@@ -48,7 +47,20 @@
 						<TABLE cellSpacing=0 cellPadding=5  border=0>
 							<tr>
 								<td>所属客户：</td>
-								<td colspan="3"><input type="text" name="custId" style="WIDTH: 180px" value="${linkman.cstCustomer.custId}" /></td>
+								<td colspan="3">
+									<%--联系人对应的客户的id--%>
+									<select name="customer.cid">
+										<c:forEach items="${customerList}" var="customer">
+											<option value="${customer.cid}"
+													<%--判断当前的所选的联系人的cid与遍历中客户的cid是否相等--%>
+													<c:if test="${customer.cid == linkman.customer.cid}">
+														selected
+													</c:if>
+											> ${customer.custName}</option>
+										</c:forEach>
+
+									</select>
+								</td>
 							</tr>
 							<TR>
 								<td>联系人名称：</td>
@@ -58,9 +70,9 @@
 								</td>
 								<td>联系人性别：</td>
 								<td>
-								<input type="radio" value="1" name="lkmGender" <c:if test="${linkman.lkmGender=='1' }">checked</c:if>>男
+								<input type="radio" value="男" name="lkmGender" <c:if test="${linkman.lkmGender=='男' }"> checked="checked"</c:if>>男
 								
-								<input type="radio" value="2" name="lkmGender" <c:if test="${linkman.lkmGender=='2' }">checked</c:if>>女
+								<input type="radio" value="女" name="lkmGender" <c:if test="${linkman.lkmGender=='女' }">checked="checked"</c:if>>女
 								</td>
 							</TR>
 							<TR>

@@ -36,6 +36,8 @@
 			<!-- 第三部分： 把映射文件放到核心配置文件中 必须的-->
 			<mapping resource="com/ahn/entity/User.hbm.xml"/>
 			<mapping resource="com/ahn/entity/Customer.hbm.xml"/>
+			<mapping resource="com/ahn/entity/LinkMan.hbm.xml"/>
+			<mapping resource="com/ahn/entity/Visit.hbm.xml"/>
 			
 		</session-factory>
 	</hibernate-configuration>

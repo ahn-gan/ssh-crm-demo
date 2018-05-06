@@ -1,7 +1,11 @@
 package com.ahn.dao;
 
 import com.ahn.entity.Customer;
+import com.ahn.entity.PageBean;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 import java.util.List;
@@ -64,7 +68,41 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao 
         /*调用hibernate的模板方法进行查询
         * 第一个参数是离线对象，第二个参数是每页开始的位置。第三个参数是每页显示的记录数*/
 
+        //得到总记录数
+        //criteria.setProjection(Projections.rowCount());
+
         List<Customer> list = (List<Customer>) this.getHibernateTemplate().findByCriteria(criteria, beginIndex, pageCount);
         return list;
+    }
+
+    //执行条件查询
+    public List<Customer> findByCondition(Customer customer) {
+        //使用离线对象进行条件查询操作
+        DetachedCriteria criteria=DetachedCriteria.forClass(Customer.class);
+        //设置条件是实体类的哪个属性
+        criteria.add(Restrictions.like("custName","%"+customer.getCustName()+"%"));
+        criteria.add(Restrictions.like("custLevel","%"+customer.getCustLevel()+"%"));
+        criteria.add(Restrictions.like("custSource","%"+customer.getCustSource()+"%"));
+        //调用hibernateTemplate的方法得到查询的结果集
+        List<Customer> list = (List<Customer>) this.getHibernateTemplate().findByCriteria(criteria);
+        this.getHibernateTemplate().getMaxResults();
+        return list;
+    }
+
+    @Override
+    public PageBean findByConditions(Customer customer, Integer currentPage) {
+        PageBean pageBean=new PageBean();
+        DetachedCriteria criteria=DetachedCriteria.forClass(Customer.class);
+        //设置条件是实体类的哪个属性
+        criteria.add(Restrictions.like("custName","%"+customer.getCustName()+"%"));
+        criteria.add(Restrictions.like("custLevel","%"+customer.getCustLevel()+"%"));
+        criteria.add(Restrictions.like("custSource","%"+customer.getCustSource()+"%"));
+        //调用hibernateTemplate的方法得到查询的结果集
+        List<Customer> list = (List<Customer>) this.getHibernateTemplate().findByCriteria(criteria);
+        int resultCount=list.size();
+        System.out.println("查询结果有："+resultCount);
+        pageBean.setList(list);
+        pageBean.setTotalCount(resultCount);
+        return pageBean;
     }
 }

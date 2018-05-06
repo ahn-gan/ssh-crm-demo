@@ -4,6 +4,8 @@ import com.ahn.dao.UserDao;
 import com.ahn.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 //¿ªÆôÊÂÎñ
 @Transactional
 public class UserService {
@@ -15,5 +17,9 @@ public class UserService {
 
     public User login(User user) {
         return userDao.login(user);
+    }
+
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 }

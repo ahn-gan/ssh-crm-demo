@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -38,6 +39,8 @@
 							<td align="center" style="font-size: 14px;"><img
 								src="${pageContext.request.contextPath }/images/info.png"
 								align="middle" height="30" width="30" />
+								<%--显示错误的详细信息--%>
+								<s:actionerror></s:actionerror>
 							    <span style="vertical-align: middle">您的操作失败！</span>	
 							</td>
 						</tr>

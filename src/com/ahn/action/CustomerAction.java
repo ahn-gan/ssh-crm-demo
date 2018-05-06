@@ -111,4 +111,21 @@ public class CustomerAction implements ModelDriven<Customer>{
         ServletActionContext.getRequest().setAttribute("pageBean",pageBean);
         return "pagelist";
     }
+
+    //条件查询
+    public String conditionQuery(){
+        if(customer.getCustName()!=null||customer.getCustLevel()!=null||customer.getCustSource()!=null){
+            //查询条件不为空，则调用条件查询的方法
+/*            List<Customer> list=customerService.findByCondition(customer);
+            //将查询得到的结果封装到域对象
+            PageBean pageBean=new PageBean();
+            pageBean.setList(list);*/
+            PageBean pageBean=customerService.findByConditions(customer,currentPage);
+            ServletActionContext.getRequest().setAttribute("pageBean",pageBean);
+        }else{
+            //查询条件为空，则执行查询所有的方法
+            pageList();
+        }
+        return "querylist";
+    }
 }

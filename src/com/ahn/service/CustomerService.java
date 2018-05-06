@@ -64,4 +64,31 @@ public class CustomerService {
         pageBean.setList(list);
         return pageBean;
     }
+
+    public List<Customer> findByCondition(Customer customer) {
+        return customerDao.findByCondition(customer);
+    }
+
+    public PageBean findByConditions(Customer customer, Integer currentPage) {
+        //得到的pageBean对象包含List集合和总的记录数
+        PageBean pageBean=customerDao.findByConditions(customer,currentPage);
+        //分装当前码
+        pageBean.setCurrentPage(currentPage);
+        //得到总记录数，需调用dao中查询总记录数的方法
+        int totalCount=pageBean.getTotalCount();
+        //得到分页的数据，需要设置每页显示的记录数
+        int pageCount=3;
+        //计算页数
+        int totalPages=0;
+        if(totalCount%pageCount==0){
+            totalPages=totalCount/pageCount;
+        }else {
+            totalPages=totalCount/pageCount+1;
+        }
+        pageBean.setTotalPages(totalPages);
+        //计算开始的索引
+        int beginIndex=(currentPage-1)*pageCount;
+        pageBean.setBeginIndex(beginIndex);
+        return pageBean;
+    }
 }
