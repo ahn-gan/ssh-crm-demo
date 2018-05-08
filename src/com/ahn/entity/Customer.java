@@ -8,7 +8,7 @@ public class Customer {
     //默认自增长的id
     private Integer cid;
     private String custName;//客户姓名
-    private String custLevel;//客户级别
+/*    private String custLevel;//客户级别*/
     private String custSource;//来源
     private String custLinkman;//对应的联系人
     private String custPhone;//固定电话
@@ -18,6 +18,16 @@ public class Customer {
     private String custFax;//传真
     private String custWebsite;//客户网站
 
+    //客户级别通过外键连接数据字典表
+    private Dict dictLevel;
+
+    public Dict getDictLevel() {
+        return dictLevel;
+    }
+
+    public void setDictLevel(Dict dictLevel) {
+        this.dictLevel = dictLevel;
+    }
 
     //一个客户对应有多条访问记录
     private Set<Visit> cvisitSet=new HashSet<Visit>();
@@ -57,13 +67,13 @@ public class Customer {
         this.custName = custName;
     }
 
-    public String getCustLevel() {
+/*    public String getCustLevel() {
         return custLevel;
     }
 
     public void setCustLevel(String custLevel) {
         this.custLevel = custLevel;
-    }
+    }*/
 
     public String getCustSource() {
         return custSource;

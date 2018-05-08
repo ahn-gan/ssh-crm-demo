@@ -66,8 +66,14 @@
 													<TD><INPUT class=textbox id=sChannel2
 														style="WIDTH: 80px" maxLength=50 name="custName"></TD>
 													<TD>客户级别：</TD>
-													<TD><INPUT class=textbox id=sChannel2
-															   style="WIDTH: 80px" maxLength=50 name="custLevel"></TD>
+													<TD>
+														<select name="dictLevel.did">
+															<option value="0">--请选择--</option>
+															<c:forEach items="${listLevel}" var="listLevel">
+																<option value="${listLevel.did}">${listLevel.dname}</option>
+															</c:forEach>
+														</select>
+													</TD>
 													<TD>客户来源：</TD>
 													<TD><INPUT class=textbox id=sChannel2
 															   style="WIDTH: 80px" maxLength=50 name="custSource"></TD>
@@ -103,7 +109,7 @@
 												<TR
 													style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 													<TD>${customer.custName }</TD>
-													<TD>${customer.custLevel }</TD>
+													<TD>${customer.dictLevel.dname }</TD>
 													<TD>${customer.custSource }</TD>
 													<TD>${customer.custLinkman }</TD>
 													<TD>${customer.custPhone }</TD>

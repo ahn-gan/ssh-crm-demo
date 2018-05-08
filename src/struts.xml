@@ -23,7 +23,7 @@
         <action name="customer_*" class="customerAction" method="{1}">
             <!--配置返回字符串所指向的具体页面-->
             <result name="toadd">/jsp/customer/add.jsp</result>
-            <result name="success" type="redirectAction">customer_list.action</result>
+            <result name="insert" type="redirectAction">customer_list.action</result>
             <result name="list">/jsp/customer/list.jsp</result>
             <!--执行删除之后再重定向到客户列表-->
             <result name="delete" type="redirectAction">customer_pageList.action</result>
@@ -35,13 +35,17 @@
             <!--条件查询结果页面-->
             <result name="querylist">/jsp/customer/pagelist.jsp</result>
 
-            <allowed-methods>toAddPage,add,list,getModel,delete,showupdate,update,pageList,conditionQuery</allowed-methods>
+            <!--条件查询页面-->
+            <result name="queryView">/jsp/query/customerquery.jsp</result>
+            <result name="query">/jsp/customer/list.jsp</result>
+
+            <allowed-methods>toAddPage,add,list,getModel,delete,showupdate,update,pageList,conditionQuery,openQuery,query</allowed-methods>
         </action>
         <!--配置linkManAction-->
         <action name="linkman_*" class="linkManAction" method="{1}">
             <!--配置返回字符串所指向的具体页面-->
             <result name="toadd">/jsp/linkman/add.jsp</result>
-            <result name="insert">/jsp/linkman/list.jsp</result>
+            <result name="insert" type="redirectAction">linkman_list.action</result>
             <!--配置上传文件超过设定的大小时返回“input”字符串的处理结果页面-->
             <result name="input">/jsp/error.jsp</result>
 
@@ -49,7 +53,9 @@
             <result name="showedit">/jsp/linkman/edit.jsp</result>
             <!--保存修改返回的结果页面-->
             <result name="edit" type="redirectAction">linkman_list.action</result>
-            <allowed-methods>toAddPage,insert,list,showedit,edit</allowed-methods>
+            <result name="queryView">/jsp/query/linkmanquery.jsp</result>
+            <result name="query">/jsp/linkman/list.jsp</result>
+            <allowed-methods>toAddPage,insert,list,showedit,edit,openQuery,query</allowed-methods>
         </action>
 
         <!--配置visitAction-->

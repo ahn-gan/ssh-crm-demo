@@ -99,7 +99,7 @@
 												<s:iterator value="list" var="custlist">
 													<TR style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 														<TD><s:property value="#custlist.custName" /></TD>
-														<TD><s:property value="#custlist.custLevel" /></TD>
+														<TD><s:property value="#custlist.dictLevel.dname" /></TD>
 														<TD><s:property value="#custlist.custSource" /></TD>
 														<TD><s:property value="#custlist.custLinkman" /></TD>
 														<TD><s:property value="#custlist.custPhone" /></TD>

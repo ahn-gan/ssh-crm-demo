@@ -1,6 +1,7 @@
 package com.ahn.dao;
 
 import com.ahn.entity.Customer;
+import com.ahn.entity.Dict;
 import com.ahn.entity.PageBean;
 
 import java.util.List;
@@ -24,4 +25,7 @@ public interface CustomerDao {
 
     PageBean findByConditions(Customer customer, Integer currentPage);
 
+    List<Customer> queryByParameters(Customer customer);
+
+    List<Dict> findLevel();
 }

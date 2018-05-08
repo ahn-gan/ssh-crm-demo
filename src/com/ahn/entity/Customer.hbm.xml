@@ -19,7 +19,7 @@
             name属性为实体类的属性，column为数据表对应的字段名称
          -->
         <property name="custName" column="custName"></property>
-        <property name="custLevel" column="custLevel"></property>
+<!--        <property name="custLevel" column="custLevel"></property>-->
         <property name="custSource" column="custSource"></property>
         <property name="custLinkman" column="custLinkman"></property>
         <property name="custPhone" column="custPhone"></property>
@@ -28,6 +28,9 @@
         <property name="custZip" column="custZip"></property>
         <property name="custFax" column="custFax"></property>
         <property name="custWebsite" column="custWebsite"></property>
+
+        <!--配置客户级别的外键-->
+        <many-to-one name="dictLevel" class="com.ahn.entity.Dict" column="custLevel"></many-to-one>
 
         <!--配置客户-联系人一对多关系
             表示客户的所有联系人-->

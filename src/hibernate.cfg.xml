@@ -38,6 +38,7 @@
 			<mapping resource="com/ahn/entity/Customer.hbm.xml"/>
 			<mapping resource="com/ahn/entity/LinkMan.hbm.xml"/>
 			<mapping resource="com/ahn/entity/Visit.hbm.xml"/>
+			<mapping resource="com/ahn/entity/Dict.hbm.xml"></mapping>
 			
 		</session-factory>
 	</hibernate-configuration>

@@ -2,6 +2,7 @@ package com.ahn.service;
 
 import com.ahn.dao.CustomerDao;
 import com.ahn.entity.Customer;
+import com.ahn.entity.Dict;
 import com.ahn.entity.PageBean;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,5 +91,13 @@ public class CustomerService {
         int beginIndex=(currentPage-1)*pageCount;
         pageBean.setBeginIndex(beginIndex);
         return pageBean;
+    }
+
+    public List<Customer> queryByParameters(Customer customer) {
+        return customerDao.queryByParameters(customer);
+    }
+
+    public List<Dict> findLevel() {
+        return customerDao.findLevel();
     }
 }

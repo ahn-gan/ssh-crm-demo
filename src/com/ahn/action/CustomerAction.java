@@ -1,12 +1,14 @@
 package com.ahn.action;
 
 import com.ahn.entity.Customer;
+import com.ahn.entity.Dict;
 import com.ahn.entity.PageBean;
 import com.ahn.service.CustomerService;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.struts2.ServletActionContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerAction implements ModelDriven<Customer>{
@@ -24,12 +26,15 @@ public class CustomerAction implements ModelDriven<Customer>{
     }
     /*转向添加页面*/
     public String toAddPage(){
+        //将数据字典的客户级别信息进行获取并封装
+        List<Dict> listLevel=customerService.findLevel();
+        ServletActionContext.getRequest().setAttribute("listLevel",listLevel);
         return "toadd";
     }
     //crud操作方法
     public String add(){
         customerService.add(customer);
-        return "success";
+        return "insert";
     }
 
     private List<Customer> list;
@@ -78,6 +83,9 @@ public class CustomerAction implements ModelDriven<Customer>{
         Customer c=customerService.findOne(cid);
         //将数据放到域对象
         ServletActionContext.getRequest().setAttribute("customer",c);
+        //将数据字典的客户级别信息进行获取并封装
+        List<Dict> listLevel=customerService.findLevel();
+        ServletActionContext.getRequest().setAttribute("listLevel",listLevel);
         //判断要删除的对象是否为空
 /*        if(c!=null){
             //执行删除操作
@@ -109,12 +117,17 @@ public class CustomerAction implements ModelDriven<Customer>{
         PageBean pageBean=customerService.findByPagenum(currentPage);
         //将获取的数据对象放到域对象
         ServletActionContext.getRequest().setAttribute("pageBean",pageBean);
+
+        //使用数据字典后新增
+        //将数据字典的客户级别信息进行获取并封装
+        List<Dict> listLevel=customerService.findLevel();
+        ServletActionContext.getRequest().setAttribute("listLevel",listLevel);
         return "pagelist";
     }
 
     //条件查询
     public String conditionQuery(){
-        if(customer.getCustName()!=null||customer.getCustLevel()!=null||customer.getCustSource()!=null){
+        if(customer.getCustName()!=null||customer.getDictLevel().getDname()!=null||customer.getCustSource()!=null){
             //查询条件不为空，则调用条件查询的方法
 /*            List<Customer> list=customerService.findByCondition(customer);
             //将查询得到的结果封装到域对象
@@ -127,5 +140,41 @@ public class CustomerAction implements ModelDriven<Customer>{
             pageList();
         }
         return "querylist";
+    }
+
+    //打开查询界面
+    public String openQuery(){
+        //将某些字段的信息作为集合传递到前台页面
+        //List<Customer> levelList=customerService.findall();
+        List<Customer> sourceList=customerService.findall();
+/*        for (int i=0;i<levelList.size();i++){
+            Customer c=levelList.get(i);
+            //除去具有相同的custLevel的对象
+            for(int j=i+1;j<levelList.size();j++){
+                if(c.getCustLevel().equals(levelList.get(j).getCustLevel()))
+                    levelList.remove(j);
+            }
+        }*/
+        for (int i=0;i<sourceList.size();i++){
+            Customer c=sourceList.get(i);
+            //除去具有相同的custSource的对象
+            for(int j=i+1;j<sourceList.size();j++){
+                if(c.getCustSource().equals(sourceList.get(j).getCustSource()))
+                    sourceList.remove(j);
+            }
+        }
+        //ServletActionContext.getRequest().setAttribute("levelList",levelList);
+        ServletActionContext.getRequest().setAttribute("sourceList",sourceList);
+        return "queryView";
+    }
+
+    //查询操作
+    public String query(){
+        if(customer.getCustName()!=null||customer.getCustSource()!=null||customer.getCustAddress()!=null) {
+            list=customerService.queryByParameters(customer);
+        }else{
+            pageList();
+        }
+        return "query";
     }
 }

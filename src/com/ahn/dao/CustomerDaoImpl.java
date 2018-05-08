@@ -1,6 +1,7 @@
 package com.ahn.dao;
 
 import com.ahn.entity.Customer;
+import com.ahn.entity.Dict;
 import com.ahn.entity.PageBean;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projection;
@@ -75,17 +76,22 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao 
         return list;
     }
 
+    @SuppressWarnings("all")
+    public List<Dict> findLevel() {
+        return (List<Dict>) this.getHibernateTemplate().find("from Dict");
+    }
+
     //执行条件查询
     public List<Customer> findByCondition(Customer customer) {
         //使用离线对象进行条件查询操作
         DetachedCriteria criteria=DetachedCriteria.forClass(Customer.class);
         //设置条件是实体类的哪个属性
         criteria.add(Restrictions.like("custName","%"+customer.getCustName()+"%"));
-        criteria.add(Restrictions.like("custLevel","%"+customer.getCustLevel()+"%"));
+        criteria.add(Restrictions.eq("dictLevel.did",customer.getDictLevel().getDid()));
         criteria.add(Restrictions.like("custSource","%"+customer.getCustSource()+"%"));
         //调用hibernateTemplate的方法得到查询的结果集
         List<Customer> list = (List<Customer>) this.getHibernateTemplate().findByCriteria(criteria);
-        this.getHibernateTemplate().getMaxResults();
+        //this.getHibernateTemplate().getMaxResults();
         return list;
     }
 
@@ -95,7 +101,7 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao 
         DetachedCriteria criteria=DetachedCriteria.forClass(Customer.class);
         //设置条件是实体类的哪个属性
         criteria.add(Restrictions.like("custName","%"+customer.getCustName()+"%"));
-        criteria.add(Restrictions.like("custLevel","%"+customer.getCustLevel()+"%"));
+        criteria.add(Restrictions.eq("dictLevel.did",customer.getDictLevel().getDid()));
         criteria.add(Restrictions.like("custSource","%"+customer.getCustSource()+"%"));
         //调用hibernateTemplate的方法得到查询的结果集
         List<Customer> list = (List<Customer>) this.getHibernateTemplate().findByCriteria(criteria);
@@ -104,5 +110,22 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao 
         pageBean.setList(list);
         pageBean.setTotalCount(resultCount);
         return pageBean;
+    }
+
+    @Override
+    public List<Customer> queryByParameters(Customer customer) {
+        DetachedCriteria criteria=DetachedCriteria.forClass(Customer.class);
+        //设置条件是实体类的哪个属性
+        if(customer.getCustName()!=null&&customer.getCustName()!="")
+            criteria.add(Restrictions.like("custName","%"+customer.getCustName()+"%"));
+/*        if(customer.getCustLevel()!=null&&customer.getCustLevel()!="")
+            criteria.add(Restrictions.eq("custLevel",customer.getCustLevel()));*/
+        if(customer.getCustSource()!=null&&customer.getCustSource()!="")
+            criteria.add(Restrictions.eq("custSource",customer.getCustSource()));
+        if(customer.getCustAddress()!=null&&customer.getCustAddress()!="")
+            criteria.add(Restrictions.like("custAddress","%"+customer.getCustAddress()+"%"));
+        //调用hibernateTemplate的方法得到查询的结果集
+        List<Customer> list = (List<Customer>) this.getHibernateTemplate().findByCriteria(criteria);
+        return list;
     }
 }
