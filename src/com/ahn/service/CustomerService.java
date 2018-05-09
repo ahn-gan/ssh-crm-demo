@@ -100,4 +100,12 @@ public class CustomerService {
     public List<Dict> findLevel() {
         return customerDao.findLevel();
     }
+
+    public List countSource() {
+        return customerDao.countSource();
+    }
+
+    public List countLevel() {
+        return customerDao.countLevel();
+    }
 }

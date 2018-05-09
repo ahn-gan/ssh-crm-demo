@@ -3,12 +3,16 @@ package com.ahn.dao;
 import com.ahn.entity.Customer;
 import com.ahn.entity.Dict;
 import com.ahn.entity.PageBean;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
+import org.hibernate.transform.Transformers;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
+import javax.xml.transform.Transformer;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -112,7 +116,22 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao 
         return pageBean;
     }
 
-    @Override
+    //根据来源统计
+    public List countSource() {
+        /*1、获取session对象
+            2、创建sqlQuery对象
+            3、返回结果集的转换
+            4、获取放回结果
+        * */
+        Session session=this.getSessionFactory().getCurrentSession();
+        SQLQuery sqlQuery=session.createSQLQuery("SELECT COUNT(*) AS sourceNum,custSource FROM t_customer GROUP BY custSource");
+ /*       Query query=session.createQuery("SELECT COUNT(*) AS 数量,custSource FROM t_customer GROUP BY custSource");*/
+        sqlQuery.setResultTransformer(Transformers.aliasToBean(HashMap.class));
+        List list=sqlQuery.list();
+        return list;
+    }
+
+    //符合条件查询
     public List<Customer> queryByParameters(Customer customer) {
         DetachedCriteria criteria=DetachedCriteria.forClass(Customer.class);
         //设置条件是实体类的哪个属性
@@ -126,6 +145,15 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao 
             criteria.add(Restrictions.like("custAddress","%"+customer.getCustAddress()+"%"));
         //调用hibernateTemplate的方法得到查询的结果集
         List<Customer> list = (List<Customer>) this.getHibernateTemplate().findByCriteria(criteria);
+        return list;
+    }
+
+    //根据客户级别统计
+    public List countLevel() {
+        Session session=this.getSessionFactory().getCurrentSession();
+        SQLQuery sqlQuery=session.createSQLQuery("SELECT COUNT(*) AS levelNum,dname FROM t_dict d,t_customer c WHERE d.did=c.custLevel GROUP BY dname ");
+        sqlQuery.setResultTransformer(Transformers.aliasToBean(HashMap.class));
+        List list=sqlQuery.list();
         return list;
     }
 }

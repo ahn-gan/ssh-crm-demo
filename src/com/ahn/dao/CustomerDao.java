@@ -28,4 +28,8 @@ public interface CustomerDao {
     List<Customer> queryByParameters(Customer customer);
 
     List<Dict> findLevel();
+
+    List countSource();
+
+    List countLevel();
 }

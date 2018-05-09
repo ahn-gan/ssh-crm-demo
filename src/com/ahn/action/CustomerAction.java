@@ -177,4 +177,17 @@ public class CustomerAction implements ModelDriven<Customer>{
         }
         return "query";
     }
+
+    //Í³¼Æ
+    public String countLevel(){
+        List list=customerService.countLevel();
+        ServletActionContext.getRequest().setAttribute("list",list);
+        return "countLevel";
+    }
+
+    public String countSource(){
+        List list=customerService.countSource();
+        ServletActionContext.getRequest().setAttribute("list",list);
+        return "countSource";
+    }
 }

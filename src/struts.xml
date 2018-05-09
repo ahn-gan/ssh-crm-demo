@@ -38,8 +38,11 @@
             <!--条件查询页面-->
             <result name="queryView">/jsp/query/customerquery.jsp</result>
             <result name="query">/jsp/customer/list.jsp</result>
+            <!--配置统计页面-->
+            <result name="countSource">/jsp/customer/countSource.jsp</result>
+            <result name="countLevel">/jsp/customer/countLevel.jsp</result>
 
-            <allowed-methods>toAddPage,add,list,getModel,delete,showupdate,update,pageList,conditionQuery,openQuery,query</allowed-methods>
+            <allowed-methods>toAddPage,add,list,getModel,delete,showupdate,update,pageList,conditionQuery,openQuery,query,countSource,countLevel</allowed-methods>
         </action>
         <!--配置linkManAction-->
         <action name="linkman_*" class="linkManAction" method="{1}">
