@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置action的创建
+        action的特点是多实例的-->
+    <bean id="visitAction" class="com.ahn.action.VisitAction" scope="prototype">
+        <!--注入service对象-->
+        <property name="visitService" ref="visitService"></property>
+        <property name="customerService" ref="customerService"></property>
+        <property name="userService" ref="userService"></property>
+    </bean>
+    <!--创建service对象-->
+    <bean id="visitService" class="com.ahn.service.VisitService">
+        <!--注入dao对象-->
+        <property name="visitDao" ref="visitDaoImpl"></property>
+    </bean>
+    <!--DaoImpl对象已经继承HibernateDaoSupport类得到hibernateTemplate对象，所以不再需要配置hibernateTemplate的创建-->
+    <!--只需要注入sessionFactory-->
+    <bean id="visitDaoImpl" class="com.ahn.dao.VisitDaoImpl">
+        <!--引用bean.xml文件的sessionFactory对象-->
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+</beans>

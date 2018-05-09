@@ -7,11 +7,9 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
-import javax.xml.transform.Transformer;
 import java.util.HashMap;
 import java.util.List;
 

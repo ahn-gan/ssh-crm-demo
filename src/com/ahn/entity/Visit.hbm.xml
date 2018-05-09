@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!--(1)配置实体类和表的映射关系
+		(2)name属性为实体类的全路径，table属性为实体类对应的数据库表名称
+	-->
+    <class name="com.ahn.entity.Visit" table="t_visit" schema="crmdb">
+        <!-- (3)配置实体类id和表id对应
+            原因是hibernate要求实体类必须有一个属性的值唯一，数据表有一个字段的值唯一
+         -->
+        <id name="vid" column="vid">
+            <!-- (4)配置id属性值的增长模式（自增） native则表示主键为自增长方式-->
+            <generator class="native"></generator>
+        </id>
+        <!-- (5)配置其他属性和表字段对应
+            name属性为实体类的属性，column为数据表对应的字段名称
+         -->
+        <property name="vaddress" column="vaddress"></property>
+        <property name="vcontent" column="vcontent"></property>
+        <!--表示访问记录的所属用户-->
+        <many-to-one name="user" class="com.ahn.entity.User" column="uvid"></many-to-one>
+
+        <!--表示访问记录的所属客户-->
+        <many-to-one name="customer" class="com.ahn.entity.Customer" column="cvid"></many-to-one>
+    </class>
+</hibernate-mapping>
